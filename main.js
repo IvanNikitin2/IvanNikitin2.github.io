@@ -158,10 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
     $('confirm-hours').onclick = () => {
         const extra = parseInt($('extra-hours').value) || 0;
         if (extra <= 0) return alert('Введите количество часов');
-        totalHours += extra;
-        hoursLeft += extra;
-        save();
-        updateUI();
         submitNetlifyForm('hours-request', {
             amount: extra,
             note: 'Добавить часы через модальное окно'
