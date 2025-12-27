@@ -1,0 +1,42 @@
+name: Lesson Request
+description: Запросить занятие по гитаре
+title: "Lesson Request: "
+labels: ["lesson"]
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Дата
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: input
+    id: time
+    attributes:
+      label: Время
+      placeholder: "HH:MM - HH:MM"
+    validations:
+      required: true
+
+  - type: input
+    id: duration
+    attributes:
+      label: Длительность (ч)
+      placeholder: "0.5, 1.0, 1.5..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Что хочешь разобрать
+      placeholder: "Песни, техники, вопросы..."
+
+  - type: textarea
+    id: contact
+    attributes:
+      label: Как связаться
+      placeholder: "Телеграм, телефон или email"
+    validations:
+      required: true

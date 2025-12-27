@@ -1,0 +1,26 @@
+name: Hours Update
+description: Попросить добавить часы в пакет
+title: "Hours Update: "
+labels: ["hours"]
+body:
+  - type: input
+    id: amount
+    attributes:
+      label: Сколько часов добавить
+      placeholder: "Например: 5"
+    validations:
+      required: true
+
+  - type: textarea
+    id: note
+    attributes:
+      label: Комментарий (опционально)
+      placeholder: "Когда и зачем нужны часы"
+
+  - type: textarea
+    id: contact
+    attributes:
+      label: Как связаться
+      placeholder: "Телеграм, телефон или email"
+    validations:
+      required: true
