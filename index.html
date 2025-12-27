@@ -8,24 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Intro -->
     <div id="intro" class="intro">
         <div class="intro-text">
             <span id="typed"></span><span class="cursor">|</span>
+            <div class="intro-actions">
+                <button id="start-app" class="btn-primary hidden">Начнём!</button>
+            </div>
         </div>
     </div>
 
-    <!-- Main -->
     <main id="app" class="app hidden">
         <div class="container">
-            <!-- Header -->
             <header class="header">
                 <div class="title-block">
                     <h1>Наши уроки гитары:)</h1>
                 </div>
             </header>
 
-            <!-- Progress -->
             <section class="card progress-card">
                 <div class="card-heading">
                     <h2>Твой прогресс</h2>
@@ -51,7 +50,6 @@
                 </div>
             </section>
 
-            <!-- Book Lesson -->
             <section class="card primary-card">
                 <div class="card-heading">
                     <h2>Записаться на урок</h2>
@@ -80,7 +78,6 @@
                 </form>
             </section>
 
-            <!-- History -->
             <section class="card">
                 <div class="card-heading">
                     <h2>История уроков</h2>
@@ -93,7 +90,6 @@
         </div>
     </main>
 
-    <!-- Modal -->
     <div id="modal" class="modal hidden">
         <div class="modal-box">
             <h3>Добавить часы</h3>

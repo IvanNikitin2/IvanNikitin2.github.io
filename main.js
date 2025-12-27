@@ -1,7 +1,6 @@
-// Simple Guitar Lessons Website
-const INTRO = "С Новым Годом!";
+const INTRO = "С Новым Годом!\nС этим сайтом ты можешь запросить у Вани обучение по гитаре!\nВыбери время и дату, подай заявку, и мы отправим запрос на почту Ване!";
 
-// State
+
 const hasStoredState = localStorage.getItem('hours') !== null ||
     localStorage.getItem('totalHours') !== null ||
     localStorage.getItem('lessons') !== null;
@@ -11,10 +10,8 @@ let hoursLeft = parseFloat(localStorage.getItem('hours') || totalHours);
 let lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
 let introShown = localStorage.getItem('introShown') === 'true';
 
-// Elements
 const $ = id => document.getElementById(id);
 
-// Typing animation
 function typeText(element, text, callback) {
     let i = 0;
     const lines = text.split('\n');
@@ -63,7 +60,6 @@ function submitNetlifyForm(formName, data) {
     });
 }
 
-// Update UI
 function updateUI() {
     const used = Math.max(0, totalHours - hoursLeft);
     $('hours-left').textContent = `${used.toFixed(1)} / ${totalHours.toFixed(0)}`;
@@ -97,19 +93,16 @@ function updateUI() {
     }
 }
 
-// Save state
 function save() {
     localStorage.setItem('hours', hoursLeft);
     localStorage.setItem('totalHours', totalHours);
     localStorage.setItem('lessons', JSON.stringify(lessons));
 }
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
     if (!hasStoredState) {
         save();
     }
-    // Set default date
     const today = new Date().toISOString().split('T')[0];
     $('date').value = today;
     $('date').min = today;
@@ -118,14 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     updateUI();
     
-    // Intro
     if (!introShown) {
-        typeText($('typed'), INTRO, () => {
+        const startButton = $('start-app');
+        startButton.classList.add('hidden');
+        const startApp = () => {
             $('intro').classList.add('fade-out');
             $('app').classList.remove('hidden');
             localStorage.setItem('introShown', 'true');
-            setTimeout(() => $('intro').style.display = 'none', 1000);
+            setTimeout(() => $('intro').style.display = 'none', 500);
+        };
+        typeText($('typed'), INTRO, () => {
+            const lines = INTRO.split('\n');
+            $('typed').innerHTML = `<span class="intro-title">${lines[0]}</span><br><span class="intro-desc">${lines.slice(1).join('<br>')}</span>`;
+            startButton.classList.remove('hidden');
         });
+        startButton.onclick = startApp;
     } else {
         $('intro').style.display = 'none';
         $('app').classList.remove('hidden');
@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     $('close-info').onclick = hideInfo;
     
-    // Form submit
     $('lesson-form').onsubmit = e => {
         e.preventDefault();
         const start = $('start').value.split(':').map(Number);
@@ -162,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // Modal
     $('add-hours-btn').onclick = () => {
         if ($('add-hours-btn').disabled) return;
         $('modal').classList.remove('hidden');
@@ -182,14 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
         $('modal').classList.add('hidden');
     };
 
-    // Teacher profile modal
     $('teacher-profile-btn').onclick = () => $('teacher-modal').classList.remove('hidden');
     $('close-teacher').onclick = () => $('teacher-modal').classList.add('hidden');
     $('teacher-modal').addEventListener('click', e => {
         if (e.target === $('teacher-modal')) $('teacher-modal').classList.add('hidden');
     });
 
-    // History toggle
     const historyBlock = $('history');
     $('toggle-history').onclick = () => {
         const collapsed = historyBlock.classList.toggle('collapsed');
