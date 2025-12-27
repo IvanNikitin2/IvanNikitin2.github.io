@@ -12,25 +12,32 @@ let introShown = localStorage.getItem('introShown') === 'true';
 
 const $ = id => document.getElementById(id);
 
-function typeIntro(lines, callback) {
+function typeIntro(titleText, descText, callback) {
     const titleEl = $('typed-title');
     const descEl = $('typed-desc');
-    let lineIndex = 0;
-    let charIndex = 0;
+    titleEl.textContent = '';
+    descEl.textContent = '';
+    let phase = 'title';
+    let index = 0;
     function type() {
-        const target = lineIndex === 0 ? titleEl : descEl;
-        if (lineIndex < lines.length) {
-            if (charIndex < lines[lineIndex].length) {
-                target.textContent += lines[lineIndex][charIndex];
-                charIndex++;
+        if (phase === 'title') {
+            if (index < titleText.length) {
+                titleEl.textContent += titleText[index];
+                index++;
                 setTimeout(type, 60);
             } else {
-                lineIndex++;
-                charIndex = 0;
-                setTimeout(type, 400);
+                phase = 'desc';
+                index = 0;
+                setTimeout(type, 300);
             }
         } else {
-            setTimeout(callback, 200);
+            if (index < descText.length) {
+                descEl.textContent += descText[index];
+                index++;
+                setTimeout(type, 60);
+            } else {
+                setTimeout(callback, 200);
+            }
         }
     }
     type();
@@ -117,7 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('introShown', 'true');
             setTimeout(() => $('intro').style.display = 'none', 500);
         };
-        typeIntro(INTRO.split('\n'), () => {
+        const parts = INTRO.split('\n');
+        const titleText = parts[0];
+        const descText = parts.slice(1).join('\n');
+        typeIntro(titleText, descText, () => {
             startButton.classList.remove('hidden');
         });
         startButton.onclick = startApp;

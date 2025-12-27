@@ -52,10 +52,12 @@ body {
     gap: 1rem;
 }
 .cursor { color: var(--gold); animation: blink 1s infinite; }
+.cursor { animation: none; }
 .intro-actions { display: flex; justify-content: center; }
 .hidden { display: none !important; }
 .intro-title { font-weight: 700; display: inline-block; }
-.intro-desc { font-size: 0.98rem; font-weight: 400; display: inline-block; }
+.intro-title { font-family: 'BBH Hegarty', 'Open Sans', sans-serif; }
+.intro-desc { font-size: 0.98rem; font-weight: 400; display: inline-block; white-space: pre-line; }
 @keyframes blink { 50% { opacity: 0; } }
 
 .app { padding: 1.5rem; }
