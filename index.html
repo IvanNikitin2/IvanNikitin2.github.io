@@ -1,18 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Guitar Lessons</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="Personal guitar lessons - Learn at your own pace">
+    <title>Guitar Lessons</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Guitar Lessons</h1>
-  <p>Private lessons available</p>
+    <!-- Intro Screen -->
+    <div id="intro" class="intro">
+        <div class="intro-content">
+            <div class="typing-container">
+                <span id="typed-text"></span>
+                <span class="cursor">|</span>
+            </div>
+        </div>
+    </div>
 
-  <a class="order-btn"
-     href="https://github.com/yourusername/yourusername.github.io/issues/new?template=order.yml">
-     Order Lesson
-  </a>
+    <!-- Main Application -->
+    <main id="app" class="app hidden">
+        <!-- Header with greeting -->
+        <header class="header">
+            <div class="container">
+                <div class="greeting">
+                    <span class="greeting-icon">🎸</span>
+                    <div class="greeting-text">
+                        <h1 id="greeting-message">Good morning</h1>
+                        <p class="greeting-sub" id="motivational-quote">Every chord brings you closer to your song</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Progress Section -->
+        <section class="section progress-section">
+            <div class="container">
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <h2>Your Learning Journey</h2>
+                        <button class="btn-link" id="request-hours-btn">
+                            <span>+ Request hours</span>
+                        </button>
+                    </div>
+                    <div class="progress-visual">
+                        <div class="progress-ring-container">
+                            <svg class="progress-ring" viewBox="0 0 120 120">
+                                <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+                                <circle class="progress-ring-fill" cx="60" cy="60" r="52" id="progress-circle"/>
+                            </svg>
+                            <div class="progress-center">
+                                <span class="progress-hours" id="hours-remaining">30</span>
+                                <span class="progress-label">hours left</span>
+                            </div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="hours-completed">0</span>
+                                <span class="stat-label">Hours learned</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="lessons-count">0</span>
+                                <span class="stat-label">Lessons taken</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Lesson Section -->
+        <section class="section order-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Book a Lesson</h2>
+                    <p class="section-desc">Choose a time that works for you</p>
+                </div>
+                <form id="lesson-form" class="lesson-form">
+                    <div class="form-group">
+                        <label for="lesson-date">Date</label>
+                        <input type="date" id="lesson-date" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="start-time">Start time</label>
+                            <input type="time" id="start-time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-time">End time</label>
+                            <input type="time" id="end-time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lesson-message">What would you like to learn?</label>
+                        <textarea id="lesson-message" rows="4" placeholder="Tell me about songs you'd like to play, techniques to explore, or any questions you have..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span>Request Lesson</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Lesson History Section -->
+        <section class="section history-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Learning Journal</h2>
+                    <p class="section-desc">Reflect on your musical journey</p>
+                </div>
+                <div id="lesson-history" class="lesson-history">
+                    <div class="empty-state" id="empty-history">
+                        <div class="empty-icon">📝</div>
+                        <p>Your lesson history will appear here</p>
+                        <span>Book your first lesson to get started</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>Made with 🎵 for your musical journey</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Request Hours Modal -->
+    <div id="hours-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Additional Hours</h3>
+                <button class="modal-close" id="close-hours-modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="hours-form" class="modal-form">
+                <div class="form-group">
+                    <label for="hours-requested">How many hours would you like to add?</label>
+                    <input type="number" id="hours-requested" min="1" max="50" value="10" required>
+                </div>
+                <div class="form-group">
+                    <label for="hours-message">Tell me about your learning goals</label>
+                    <textarea id="hours-message" rows="4" placeholder="What are you hoping to achieve with these additional hours? Any specific skills or songs you want to master?"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lesson Submitted Toast -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <svg class="toast-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span id="toast-message">Lesson request submitted!</span>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
