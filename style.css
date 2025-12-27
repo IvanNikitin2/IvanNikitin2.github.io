@@ -86,6 +86,7 @@ body {
 }
 .card-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem; }
 .hint { color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.35rem; }
+.hint-inline { margin-top: -0.35rem; margin-bottom: 0.5rem; font-size: 0.78rem; }
 .primary-card {
     background: radial-gradient(circle at 20% 20%, rgba(217,165,74,0.1), transparent 50%), linear-gradient(145deg, #244036, #1a2b24);
     border: 1px solid rgba(217,165,74,0.25);
@@ -100,7 +101,7 @@ body {
 
 /* Progress */
 .progress-card { background: linear-gradient(180deg, #21362d, #182720); }
-.progress-hero { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.progress-hero { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.55rem; }
 .big-number { font-size: 3rem; font-weight: 800; color: var(--secondary); letter-spacing: -0.02em; }
 .label { color: var(--text-light); font-size: 0.9rem; }
 .subtle { color: var(--text-light); font-size: 0.85rem; }
