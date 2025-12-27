@@ -1,5 +1,5 @@
 // Simple Guitar Lessons Website
-const INTRO = "С Новым Годом!\nТы на сайте уроков гитары";
+const INTRO = "С Новым Годом!";
 
 // State
 const hasStoredState = localStorage.getItem('hours') !== null ||
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('intro').classList.add('fade-out');
             $('app').classList.remove('hidden');
             localStorage.setItem('introShown', 'true');
-            setTimeout(() => $('intro').style.display = 'none', 500);
+            setTimeout(() => $('intro').style.display = 'none', 1000);
         });
     } else {
         $('intro').style.display = 'none';
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const end = $('end').value.split(':').map(Number);
         const duration = (end[0] * 60 + end[1] - start[0] * 60 - start[1]) / 60;
         
-        if (duration <= 0) return alert('Время окончания должно быть позже начала');
+        if (duration <= 0) return alert('Время окончания должно быть позже начала!');
         if (duration > hoursLeft) return alert('Недостаточно часов');
         
         const topic = $('message').value.trim();
@@ -146,9 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: duration.toFixed(1),
             message: topic || 'без деталей'
         }).then(() => {
-            showInfo('Подожди, Иван ответит тебе в личку');
+            showInfo('Ваня оповещен! Ожидай подтверждение в личных сообщениях!');
         }).catch(() => {
-            alert('Не удалось отправить заявку. Попробуй еще раз.');
+            alert('Хмм, что то сломалось, попробуй ещё раз!.');
         });
     };
     
@@ -160,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (extra <= 0) return alert('Введите количество часов');
         submitNetlifyForm('hours-request', {
             amount: extra,
-            note: 'Добавить часы через модальное окно'
+            note: 'Добавить часы'
         }).then(() => {
-            showInfo('Hours requested');
+            showInfo('Ваня оповещен, запрос на пополнение будет просмотрен!');
         }).catch(() => {
-            alert('Не удалось отправить запрос на часы. Попробуй еще раз.');
+            alert('Хмм, что то сломалось, попробуй ещё раз!');
         });
         $('modal').classList.add('hidden');
     };
