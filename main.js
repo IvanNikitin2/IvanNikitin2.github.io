@@ -182,6 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
         $('modal').classList.add('hidden');
     };
 
+    // Teacher profile modal
+    $('teacher-profile-btn').onclick = () => $('teacher-modal').classList.remove('hidden');
+    $('close-teacher').onclick = () => $('teacher-modal').classList.add('hidden');
+    $('teacher-modal').addEventListener('click', e => {
+        if (e.target === $('teacher-modal')) $('teacher-modal').classList.add('hidden');
+    });
+
     // History toggle
     const historyBlock = $('history');
     $('toggle-history').onclick = () => {

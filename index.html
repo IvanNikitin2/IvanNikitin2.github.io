@@ -51,7 +51,10 @@
 
             <!-- Book Lesson -->
             <section class="card primary-card">
-                <h2>Записаться на урок</h2>
+                <div class="card-heading">
+                    <h2>Записаться на урок</h2>
+                    <button type="button" class="btn-ghost" id="teacher-profile-btn">Профиль преподавателя</button>
+                </div>
                 <form id="lesson-form" name="lesson-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
                     <input type="hidden" name="form-name" value="lesson-request">
                     <div style="display:none">
@@ -96,6 +99,26 @@
             <div class="modal-buttons">
                 <button class="btn-secondary" id="cancel-modal">Отмена</button>
                 <button class="btn-primary" id="confirm-hours">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="teacher-modal" class="modal hidden">
+        <div class="modal-box teacher-box">
+            <div class="teacher-header">
+                <img src="teacher.jpg" alt="Фото преподавателя" class="teacher-photo">
+                <div>
+                    <p class="teacher-name">Иван Никитин</p>
+                    <p class="teacher-note">Преподаватель гитары</p>
+                </div>
+            </div>
+            <div class="teacher-info">
+                <p><strong>Образование:</strong> Staņislova Broka Mūzikas vidusskola</p>
+                <p><strong>Опыт:</strong> Множество лет</p>
+                <p><strong>От преподавателя:</strong> Я могу научить чему угодно!</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-primary" id="close-teacher">Закрыть</button>
             </div>
         </div>
     </div>

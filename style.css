@@ -239,6 +239,12 @@ textarea { min-height: 90px; resize: vertical; }
 .modal-box label { margin-bottom: 1rem; }
 .modal-buttons { display: flex; gap: 0.5rem; margin-top: 1rem; }
 .modal-buttons button { flex: 1; }
+.teacher-box { max-width: 420px; }
+.teacher-header { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; }
+.teacher-photo { width: 88px; height: 88px; border-radius: 14px; object-fit: cover; border: 1px solid var(--border); }
+.teacher-name { font-size: 1.1rem; font-weight: 700; color: var(--secondary); }
+.teacher-note { color: var(--text-light); }
+.teacher-info p { margin-bottom: 0.35rem; color: var(--text-soft); }
 
 /* Responsive */
 @media (max-width: 400px) {
