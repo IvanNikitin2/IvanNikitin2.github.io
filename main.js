@@ -74,6 +74,12 @@ function updateUI() {
     const disableAdd = hoursLeft > 3;
     addHoursBtn.disabled = disableAdd;
     addHoursBtn.classList.toggle('disabled', disableAdd);
+    const hint = $('hours-hint');
+    if (disableAdd) {
+        hint.textContent = 'У тебя пока есть доступные часы';
+    } else {
+        hint.textContent = '';
+    }
     
     const history = $('history');
     if (lessons.length === 0) {
