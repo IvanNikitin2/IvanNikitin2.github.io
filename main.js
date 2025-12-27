@@ -2,6 +2,10 @@
 const INTRO = "С Новым Годом!\nТы на сайте уроков гитары";
 
 // State
+const hasStoredState = localStorage.getItem('hours') !== null ||
+    localStorage.getItem('totalHours') !== null ||
+    localStorage.getItem('lessons') !== null;
+
 let totalHours = parseFloat(localStorage.getItem('totalHours') || 30);
 let hoursLeft = parseFloat(localStorage.getItem('hours') || totalHours);
 let lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
@@ -92,6 +96,9 @@ function save() {
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
+    if (!hasStoredState) {
+        save();
+    }
     // Set default date
     const today = new Date().toISOString().split('T')[0];
     $('date').value = today;
@@ -124,8 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const duration = (end[0] * 60 + end[1] - start[0] * 60 - start[1]) / 60;
         
         if (duration <= 0) return alert('Время окончания должно быть позже начала');
+        if (duration > hoursLeft) return alert('Недостаточно часов');
         
         const topic = $('message').value.trim();
+        lessons.unshift({ date: $('date').value, duration: duration.toFixed(1), topic });
+        hoursLeft = Math.max(0, hoursLeft - duration);
+        save();
+        updateUI();
+        $('message').value = '';
         submitNetlifyForm('lesson-request', {
             date: $('date').value,
             start: $('start').value,
@@ -144,6 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $('cancel-modal').onclick = () => $('modal').classList.add('hidden');
     $('confirm-hours').onclick = () => {
         const extra = parseInt($('extra-hours').value) || 0;
+        if (extra <= 0) return alert('Введите количество часов');
+        totalHours += extra;
+        hoursLeft += extra;
+        save();
+        updateUI();
         submitNetlifyForm('hours-request', {
             amount: extra,
             note: 'Добавить часы через модальное окно'
