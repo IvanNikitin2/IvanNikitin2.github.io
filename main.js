@@ -77,7 +77,7 @@ function updateUI() {
     } else {
         history.innerHTML = lessons.map(l => `
             <div class="lesson-item">
-                <div>
+                <div class="lesson-meta">
                     <p class="lesson-date">${new Date(l.date).toLocaleDateString('ru-RU')}</p>
                     <p class="lesson-topic">${l.topic || 'Тема не указана'}</p>
                 </div>

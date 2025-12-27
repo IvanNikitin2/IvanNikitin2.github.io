@@ -203,8 +203,9 @@ textarea { min-height: 90px; resize: vertical; }
     gap: 0.5rem;
     border: 1px solid rgba(255,255,255,0.05);
 }
+.lesson-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
 .lesson-date { color: var(--secondary); font-weight: 700; }
-.lesson-topic { color: var(--text-light); font-size: 0.9rem; }
+.lesson-topic { color: var(--text-light); font-size: 0.9rem; white-space: nowrap; }
 .lesson-duration { 
     background: var(--gold);
     color: var(--forest-dark);
