@@ -1,0 +1,34 @@
+name: Guitar Lesson Order
+description: Order a private guitar lesson
+title: "Lesson Order: "
+labels: ["order"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Customer Name
+      placeholder: Your name
+    validations:
+      required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Preferred Date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: input
+    id: time
+    attributes:
+      label: Preferred Time
+      placeholder: HH:MM
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      placeholder: Any additional details
