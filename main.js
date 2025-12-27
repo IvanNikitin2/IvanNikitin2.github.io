@@ -1,9 +1,6 @@
 // Simple Guitar Lessons Website
 const INTRO = "С Новым Годом!\nТы на сайте уроков гитары";
 
-// Config for GitHub issue forms (frontend only)
-const ISSUE_FORM_BASE = 'https://github.com/IvanNikitin2/IvanNikitin2.github.io/issues/new';
-
 // State
 let totalHours = parseFloat(localStorage.getItem('totalHours') || 30);
 let hoursLeft = parseFloat(localStorage.getItem('hours') || totalHours);
@@ -50,12 +47,16 @@ function hideInfo() {
     $('info-modal').classList.add('hidden');
 }
 
-function buildIssueUrl({ title, body, template }) {
-    const params = new URLSearchParams();
-    if (template) params.set('template', template);
-    params.set('title', title);
-    params.set('body', body);
-    return `${ISSUE_FORM_BASE}?${params.toString()}`;
+const encode = data => Object.keys(data)
+    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .join('&');
+
+function submitNetlifyForm(formName, data) {
+    return fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': formName, ...data })
+    });
 }
 
 // Update UI
@@ -125,14 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (duration <= 0) return alert('Время окончания должно быть позже начала');
         
         const topic = $('message').value.trim();
-        const issueBody = `Дата: ${$('date').value}\nВремя: ${$('start').value} - ${$('end').value}\nДлительность: ${duration.toFixed(1)} ч\nЗапрос: ${topic || 'без деталей'}`;
-        const url = buildIssueUrl({
-            title: 'Новый запрос на урок',
-            body: issueBody,
-            template: 'lesson-request.yml'
+        submitNetlifyForm('lesson-request', {
+            date: $('date').value,
+            start: $('start').value,
+            end: $('end').value,
+            duration: duration.toFixed(1),
+            message: topic || 'без деталей'
+        }).then(() => {
+            showInfo('Подожди, Иван ответит тебе в личку');
+        }).catch(() => {
+            alert('Не удалось отправить заявку. Попробуй еще раз.');
         });
-        window.open(url, '_blank', 'noopener');
-        showInfo('Подожди, Иван ответит тебе в личку');
     };
     
     // Modal
@@ -140,15 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
     $('cancel-modal').onclick = () => $('modal').classList.add('hidden');
     $('confirm-hours').onclick = () => {
         const extra = parseInt($('extra-hours').value) || 0;
-        const issueBody = `Запрос на добавление часов: ${extra} ч`;
-        const url = buildIssueUrl({
-            title: 'Нужно добавить часы',
-            body: issueBody,
-            template: 'hours-request.yml'
+        submitNetlifyForm('hours-request', {
+            amount: extra,
+            note: 'Добавить часы через модальное окно'
+        }).then(() => {
+            showInfo('Hours requested');
+        }).catch(() => {
+            alert('Не удалось отправить запрос на часы. Попробуй еще раз.');
         });
-        window.open(url, '_blank', 'noopener');
         $('modal').classList.add('hidden');
-        showInfo('Hours requested');
     };
 
     // History toggle
