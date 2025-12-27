@@ -1,14 +1,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --bg: #fdf6f0;
-    --card: #ffffff;
-    --primary: #c41e3a;
+    --bg: #2d493a;
+    --card: hsl(22, 35%, 49%);
+    --primary: #363a37;
     --primary-dark: #a01830;
     --secondary: #2d5a27;
     --gold: #d4a534;
-    --text: #3d2914;
-    --text-light: #7a6552;
+    --text: #112621;
+    --text-light: #868181;
     --border: #e8ddd4;
 }
 
