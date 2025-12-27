@@ -43,7 +43,7 @@ function updateUI() {
     $('hours-left').textContent = hoursLeft.toFixed(1);
     $('lessons-done').textContent = lessons.length;
     $('total-hours').textContent = totalHours.toFixed(0);
-    $('total-hours-label').textContent = `из ${totalHours.toFixed(0)} часов пакета`;
+    $('total-hours-label').textContent = `из ${totalHours.toFixed(0)} часов всего`;
     
     const percentLeft = totalHours > 0 ? Math.max(0, Math.min(100, (hoursLeft / totalHours) * 100)) : 0;
     $('progress-percent').textContent = `${percentLeft.toFixed(0)}%`;
