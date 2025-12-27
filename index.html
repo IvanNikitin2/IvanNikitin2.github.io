@@ -20,37 +20,70 @@
         <div class="container">
             <!-- Header -->
             <header class="header">
-                <span class="logo">🎸</span>
-                <h1>Уроки Гитары</h1>
+                <span class="logo" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" role="presentation">
+                        <path d="M50 8c-1.1 0-2 .9-2 2v4.6l-4.6 4.6-5.7-5.7c-.4-.4-.9-.7-1.4-.7-.5 0-1 .2-1.4.6l-4.4 4.4c-.8.8-.8 2.1 0 2.8l1.4 1.4-12.4 12.4c-3.9 3.9-3.9 10.3 0 14.2 3.9 3.9 10.3 3.9 14.2 0l12.4-12.4 1.4 1.4c.8.8 2.1.8 2.8 0l4.4-4.4c.8-.8.8-2.1 0-2.8l-5.7-5.7L54 16h4c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-8zm-8.5 20.5-7.1 7.1c-1.2 1.2-3.1 1.2-4.2 0-1.2-1.2-1.2-3.1 0-4.2l7.1-7.1 4.2 4.2z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <div class="title-block">
+                    <p class="eyebrow">Личный кабинет</p>
+                    <h1>Уроки гитары</h1>
+                </div>
             </header>
 
             <!-- Progress -->
             <section class="card progress-card">
-                <h2>Твой прогресс</h2>
-                <div class="progress-info">
-                    <div class="progress-item">
-                        <span class="big-number" id="hours-left">30</span>
-                        <span>часов осталось</span>
+                <div class="card-heading">
+                    <h2>Твой прогресс</h2>
+                    <button class="btn-ghost" id="add-hours-btn">+ Добавить часы</button>
+                </div>
+                <div class="progress-hero">
+                    <div>
+                        <div class="big-number" id="hours-left">30</div>
+                        <p class="label">часов осталось</p>
+                        <p class="subtle" id="total-hours-label">из 40 часов пакета</p>
                     </div>
-                    <div class="progress-item">
-                        <span class="big-number" id="lessons-done">0</span>
-                        <span>уроков пройдено</span>
+                    <div class="badge">
+                        <span id="progress-percent">97%</span>
                     </div>
                 </div>
-                <button class="btn-secondary" id="add-hours-btn">+ Добавить часы</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-meta">
+                    <div>
+                        <p class="meta-label">Пройдено уроков</p>
+                        <p class="meta-value" id="lessons-done">0</p>
+                    </div>
+                    <div>
+                        <p class="meta-label">Доступно часов</p>
+                        <p class="meta-value" id="total-hours">40</p>
+                    </div>
+                </div>
             </section>
 
             <!-- Book Lesson -->
-            <section class="card">
+            <section class="card primary-card">
                 <h2>Записаться на урок</h2>
                 <form id="lesson-form">
-                    <div class="form-row">
-                        <label>Дата <input type="date" id="date" required></label>
-                        <label>Начало <input type="time" id="start" required></label>
-                        <label>Конец <input type="time" id="end" required></label>
+                    <div class="form-row compact">
+                        <label>Дата
+                            <input type="date" id="date" required>
+                        </label>
+                        <label>Время
+                            <input type="time" id="start" required>
+                        </label>
+                        <label>Длительность
+                            <select id="duration" required>
+                                <option value="0.5">30 минут</option>
+                                <option value="1" selected>60 минут</option>
+                                <option value="1.5">90 минут</option>
+                            </select>
+                        </label>
                     </div>
                     <label>Что хочешь изучить?
                         <textarea id="message" placeholder="Песни, техники, вопросы..."></textarea>
+                        <span class="helper">Это поможет преподавателю подготовиться</span>
                     </label>
                     <button type="submit" class="btn-primary">Отправить заявку</button>
                 </form>
@@ -58,7 +91,10 @@
 
             <!-- History -->
             <section class="card">
-                <h2>История уроков</h2>
+                <div class="card-heading">
+                    <h2>История уроков</h2>
+                    <span class="eyebrow subtle">Последние занятия</span>
+                </div>
                 <div id="history">
                     <p class="empty">Пока нет уроков. Запишись на первый!</p>
                 </div>

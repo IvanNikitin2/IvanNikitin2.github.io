@@ -2,7 +2,8 @@
 const INTRO = "С Новым Годом!\nТы на сайте уроков гитары";
 
 // State
-let hoursLeft = parseFloat(localStorage.getItem('hours') || 30);
+let totalHours = parseFloat(localStorage.getItem('totalHours') || 40);
+let hoursLeft = parseFloat(localStorage.getItem('hours') || totalHours);
 let lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
 let introShown = localStorage.getItem('introShown') === 'true';
 
@@ -41,6 +42,12 @@ function typeText(element, text, callback) {
 function updateUI() {
     $('hours-left').textContent = hoursLeft.toFixed(1);
     $('lessons-done').textContent = lessons.length;
+    $('total-hours').textContent = totalHours.toFixed(0);
+    $('total-hours-label').textContent = `из ${totalHours.toFixed(0)} часов пакета`;
+    
+    const percentLeft = totalHours > 0 ? Math.max(0, Math.min(100, (hoursLeft / totalHours) * 100)) : 0;
+    $('progress-percent').textContent = `${percentLeft.toFixed(0)}%`;
+    $('progress-fill').style.width = `${percentLeft}%`;
     
     const history = $('history');
     if (lessons.length === 0) {
@@ -48,8 +55,11 @@ function updateUI() {
     } else {
         history.innerHTML = lessons.map(l => `
             <div class="lesson-item">
-                <strong>${new Date(l.date).toLocaleDateString('ru-RU')}</strong>
-                <span>${l.duration}ч</span>
+                <div>
+                    <p class="lesson-date">${new Date(l.date).toLocaleDateString('ru-RU')}</p>
+                    <p class="lesson-topic">${l.topic || 'Тема не указана'}</p>
+                </div>
+                <span class="lesson-duration">${l.duration}ч</span>
             </div>
         `).join('');
     }
@@ -58,6 +68,7 @@ function updateUI() {
 // Save state
 function save() {
     localStorage.setItem('hours', hoursLeft);
+    localStorage.setItem('totalHours', totalHours);
     localStorage.setItem('lessons', JSON.stringify(lessons));
 }
 
@@ -68,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('date').value = today;
     $('date').min = today;
     $('start').value = '10:00';
-    $('end').value = '11:00';
+    $('duration').value = '1';
     
     updateUI();
     
@@ -88,14 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form submit
     $('lesson-form').onsubmit = e => {
         e.preventDefault();
-        const start = $('start').value.split(':').map(Number);
-        const end = $('end').value.split(':').map(Number);
-        const duration = (end[0] * 60 + end[1] - start[0] * 60 - start[1]) / 60;
+        const duration = parseFloat($('duration').value);
+        if (Number.isNaN(duration)) return alert('Выбери длительность');
         
-        if (duration <= 0) return alert('Время окончания должно быть позже начала');
+        if (duration <= 0) return alert('Длительность должна быть положительной');
         if (duration > hoursLeft) return alert('Недостаточно часов');
         
-        lessons.unshift({ date: $('date').value, duration: duration.toFixed(1) });
+        const topic = $('message').value.trim();
+        lessons.unshift({ date: $('date').value, duration: duration.toFixed(1), topic });
         hoursLeft -= duration;
         save();
         updateUI();
@@ -108,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('cancel-modal').onclick = () => $('modal').classList.add('hidden');
     $('confirm-hours').onclick = () => {
         const extra = parseInt($('extra-hours').value) || 0;
+        totalHours += extra;
         hoursLeft += extra;
         save();
         updateUI();
