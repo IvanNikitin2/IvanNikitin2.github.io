@@ -40,11 +40,10 @@ function typeText(element, text, callback) {
 
 // Update UI
 function updateUI() {
-    $('hours-left').textContent = hoursLeft.toFixed(1);
+    $('hours-left').textContent = `${hoursLeft.toFixed(1)} / ${totalHours.toFixed(0)}`;
     $('lessons-done').textContent = lessons.length;
-    const percentLeft = totalHours > 0 ? Math.max(0, Math.min(100, (hoursLeft / totalHours) * 100)) : 0;
-    $('progress-percent').textContent = `${percentLeft.toFixed(0)}%`;
-    $('progress-fill').style.width = `${percentLeft}%`;
+    const usedPercent = totalHours > 0 ? Math.max(0, Math.min(100, ((totalHours - hoursLeft) / totalHours) * 100)) : 0;
+    $('progress-fill').style.width = `${usedPercent}%`;
     
     const history = $('history');
     if (lessons.length === 0) {
