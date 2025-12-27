@@ -1,0 +1,15 @@
+body {
+  font-family: system-ui, sans-serif;
+  text-align: center;
+  padding: 2rem;
+}
+
+.order-btn {
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  background: black;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
