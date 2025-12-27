@@ -74,8 +74,8 @@ body {
     border: 1px solid var(--border);
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    font-size: 1.6rem;
 }
-.logo svg { width: 70%; height: 70%; }
 .title-block { display: flex; flex-direction: column; gap: 0.1rem; }
 .title-block h1 {
     font-size: 1.6rem;
@@ -146,7 +146,7 @@ body {
 }
 .progress-meta {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 0.75rem;
 }
 .meta-label { color: var(--text-light); font-size: 0.82rem; }
@@ -225,6 +225,7 @@ textarea { min-height: 90px; resize: vertical; }
 
 /* History */
 #history { min-height: 60px; }
+#history.collapsed { display: none; }
 .empty { text-align: center; color: var(--text-light); font-size: 0.9rem; padding: 1rem; }
 .lesson-item {
     background: var(--forest-dark);

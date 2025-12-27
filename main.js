@@ -42,9 +42,6 @@ function typeText(element, text, callback) {
 function updateUI() {
     $('hours-left').textContent = hoursLeft.toFixed(1);
     $('lessons-done').textContent = lessons.length;
-    $('total-hours').textContent = totalHours.toFixed(0);
-    $('total-hours-label').textContent = `из ${totalHours.toFixed(0)} часов всего`;
-    
     const percentLeft = totalHours > 0 ? Math.max(0, Math.min(100, (hoursLeft / totalHours) * 100)) : 0;
     $('progress-percent').textContent = `${percentLeft.toFixed(0)}%`;
     $('progress-fill').style.width = `${percentLeft}%`;
@@ -79,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('date').value = today;
     $('date').min = today;
     $('start').value = '10:00';
-    $('duration').value = '1';
+    $('end').value = '11:00';
     
     updateUI();
     
@@ -99,10 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form submit
     $('lesson-form').onsubmit = e => {
         e.preventDefault();
-        const duration = parseFloat($('duration').value);
-        if (Number.isNaN(duration)) return alert('Выбери длительность');
+        const start = $('start').value.split(':').map(Number);
+        const end = $('end').value.split(':').map(Number);
+        const duration = (end[0] * 60 + end[1] - start[0] * 60 - start[1]) / 60;
         
-        if (duration <= 0) return alert('Длительность должна быть положительной');
+        if (duration <= 0) return alert('Время окончания должно быть позже начала');
         if (duration > hoursLeft) return alert('Недостаточно часов');
         
         const topic = $('message').value.trim();
@@ -125,5 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateUI();
         $('modal').classList.add('hidden');
         alert(`${extra} часов добавлено!`);
+    };
+
+    // History toggle
+    const historyBlock = $('history');
+    $('toggle-history').onclick = () => {
+        const collapsed = historyBlock.classList.toggle('collapsed');
+        $('toggle-history').textContent = collapsed ? 'Показать' : 'Скрыть';
     };
 });
