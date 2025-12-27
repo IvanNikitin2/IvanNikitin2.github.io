@@ -12,28 +12,25 @@ let introShown = localStorage.getItem('introShown') === 'true';
 
 const $ = id => document.getElementById(id);
 
-function typeText(element, text, callback) {
-    let i = 0;
-    const lines = text.split('\n');
+function typeIntro(lines, callback) {
+    const titleEl = $('typed-title');
+    const descEl = $('typed-desc');
     let lineIndex = 0;
     let charIndex = 0;
-    
     function type() {
+        const target = lineIndex === 0 ? titleEl : descEl;
         if (lineIndex < lines.length) {
             if (charIndex < lines[lineIndex].length) {
-                element.textContent += lines[lineIndex][charIndex];
+                target.textContent += lines[lineIndex][charIndex];
                 charIndex++;
                 setTimeout(type, 60);
             } else {
                 lineIndex++;
                 charIndex = 0;
-                if (lineIndex < lines.length) {
-                    element.innerHTML += '<br>';
-                    setTimeout(type, 400);
-                } else {
-                    setTimeout(callback, 1000);
-                }
+                setTimeout(type, 400);
             }
+        } else {
+            setTimeout(callback, 200);
         }
     }
     type();
@@ -120,9 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('introShown', 'true');
             setTimeout(() => $('intro').style.display = 'none', 500);
         };
-        typeText($('typed'), INTRO, () => {
-            const lines = INTRO.split('\n');
-            $('typed').innerHTML = `<span class="intro-title">${lines[0]}</span><br><span class="intro-desc">${lines.slice(1).join('<br>')}</span>`;
+        typeIntro(INTRO.split('\n'), () => {
             startButton.classList.remove('hidden');
         });
         startButton.onclick = startApp;
