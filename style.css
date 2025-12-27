@@ -188,6 +188,10 @@ textarea { min-height: 90px; resize: vertical; }
     cursor: pointer;
 }
 .btn-ghost:hover { background: transparent; border-color: rgba(217,165,74,0.4); }
+.btn-ghost.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 
 /* History */
 #history { min-height: 60px; }

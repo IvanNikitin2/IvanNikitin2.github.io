@@ -70,6 +70,10 @@ function updateUI() {
     $('lessons-done').textContent = lessons.length;
     const usedPercent = totalHours > 0 ? Math.max(0, Math.min(100, (used / totalHours) * 100)) : 0;
     $('progress-fill').style.width = `${usedPercent}%`;
+    const addHoursBtn = $('add-hours-btn');
+    const disableAdd = hoursLeft > 3;
+    addHoursBtn.disabled = disableAdd;
+    addHoursBtn.classList.toggle('disabled', disableAdd);
     
     const history = $('history');
     if (lessons.length === 0) {
@@ -153,7 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // Modal
-    $('add-hours-btn').onclick = () => $('modal').classList.remove('hidden');
+    $('add-hours-btn').onclick = () => {
+        if ($('add-hours-btn').disabled) return;
+        $('modal').classList.remove('hidden');
+    };
     $('cancel-modal').onclick = () => $('modal').classList.add('hidden');
     $('confirm-hours').onclick = () => {
         const extra = parseInt($('extra-hours').value) || 0;
