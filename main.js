@@ -1,8 +1,12 @@
 // Simple Guitar Lessons Website
 const INTRO = "С Новым Годом!\nТы на сайте уроков гитары";
 
+// Config for GitHub issues
+const GITHUB_REPO = localStorage.getItem('githubRepo') || 'OWNER/REPO';
+const GITHUB_TOKEN = localStorage.getItem('githubToken') || '';
+
 // State
-let totalHours = parseFloat(localStorage.getItem('totalHours') || 40);
+let totalHours = parseFloat(localStorage.getItem('totalHours') || 30);
 let hoursLeft = parseFloat(localStorage.getItem('hours') || totalHours);
 let lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
 let introShown = localStorage.getItem('introShown') === 'true';
@@ -38,11 +42,41 @@ function typeText(element, text, callback) {
     type();
 }
 
+async function createIssue(title, body) {
+    if (!GITHUB_TOKEN || GITHUB_REPO === 'OWNER/REPO') {
+        console.warn('GitHub token or repo missing. Set localStorage.githubToken and localStorage.githubRepo.');
+        return false;
+    }
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `token ${GITHUB_TOKEN}`
+        },
+        body: JSON.stringify({ title, body })
+    });
+    if (!res.ok) {
+        console.error('Failed to create issue', await res.text());
+        return false;
+    }
+    return true;
+}
+
+function showInfo(message) {
+    $('info-message').textContent = message;
+    $('info-modal').classList.remove('hidden');
+}
+
+function hideInfo() {
+    $('info-modal').classList.add('hidden');
+}
+
 // Update UI
 function updateUI() {
-    $('hours-left').textContent = `${hoursLeft.toFixed(1)} / ${totalHours.toFixed(0)}`;
+    const used = Math.max(0, totalHours - hoursLeft);
+    $('hours-left').textContent = `${used.toFixed(1)} / ${totalHours.toFixed(0)}`;
     $('lessons-done').textContent = lessons.length;
-    const usedPercent = totalHours > 0 ? Math.max(0, Math.min(100, ((totalHours - hoursLeft) / totalHours) * 100)) : 0;
+    const usedPercent = totalHours > 0 ? Math.max(0, Math.min(100, (used / totalHours) * 100)) : 0;
     $('progress-fill').style.width = `${usedPercent}%`;
     
     const history = $('history');
@@ -92,8 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         $('app').classList.remove('hidden');
     }
     
+    $('close-info').onclick = hideInfo;
+    
     // Form submit
-    $('lesson-form').onsubmit = e => {
+    $('lesson-form').onsubmit = async e => {
         e.preventDefault();
         const start = $('start').value.split(':').map(Number);
         const end = $('end').value.split(':').map(Number);
@@ -108,20 +144,22 @@ document.addEventListener('DOMContentLoaded', () => {
         save();
         updateUI();
         $('message').value = '';
-        alert('Заявка отправлена!');
+        const issueBody = `Дата: ${$('date').value}\nВремя: ${$('start').value} - ${$('end').value}\nДлительность: ${duration.toFixed(1)} ч\nЗапрос: ${topic || 'без деталей'}`;
+        const ok = await createIssue('Новый запрос на урок', issueBody);
+        showInfo('Подожди, Иван ответит тебе в личку');
+        if (!ok) alert('Не удалось создать задачу на GitHub. Проверь токен и репозиторий.');
     };
     
     // Modal
     $('add-hours-btn').onclick = () => $('modal').classList.remove('hidden');
     $('cancel-modal').onclick = () => $('modal').classList.add('hidden');
-    $('confirm-hours').onclick = () => {
+    $('confirm-hours').onclick = async () => {
         const extra = parseInt($('extra-hours').value) || 0;
-        totalHours += extra;
-        hoursLeft += extra;
-        save();
-        updateUI();
+        const issueBody = `Запрос на добавление часов: ${extra} ч`;
+        const ok = await createIssue('Нужно добавить часы', issueBody);
         $('modal').classList.add('hidden');
-        alert(`${extra} часов добавлено!`);
+        showInfo('Hours requested');
+        if (!ok) alert('Не удалось создать задачу на GitHub. Проверь токен и репозиторий.');
     };
 
     // History toggle
